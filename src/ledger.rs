@@ -74,15 +74,19 @@ impl Ledger {
         // assume partner error if txn referenced
         // does not exist and ignore.
         if let Some(referenced_txn) = self.txn_from_history(txn_id) {
-            let amount = referenced_txn.amount();
-            let account = self
-                .accounts
-                .entry(referenced_txn.client_id())
-                .or_insert(Account::new());
 
-            account.sub_available(amount)?;
-            account.add_held(amount)?;
-            account.disputes.insert(txn_id);
+            // only valid for deposits, ignore otherwise
+            if matches!(referenced_txn, Txn::Deposit { .. }) {
+                let amount = referenced_txn.amount();
+                let account = self
+                    .accounts
+                    .entry(referenced_txn.client_id())
+                    .or_insert(Account::new());
+    
+                account.sub_available(amount)?;
+                account.add_held(amount)?;
+                account.disputes.insert(txn_id);
+            }
         }
         Ok(())
     }

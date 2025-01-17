@@ -1,5 +1,6 @@
 use crate::{events::ProcessEvent, record::Record};
 
+#[derive(PartialEq)]
 pub enum Txn {
     Deposit {
         client_id: u16,

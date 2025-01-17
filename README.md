@@ -6,7 +6,7 @@
  transaction made by client B (if thats valid) is performed on client B's account, 
  and not on client A's account.
 
-2. Disputes are valid against deposits only.
+2. Disputes are valid against deposits only. Others are ignored.
 
 3. A frozen accounts means it cannot perform further deposits or withdrawals, any are ignored.
 
